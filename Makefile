@@ -3,6 +3,10 @@
 export GOPATH=$(PWD)
 UNAME_S = $(shell uname -s)
 
+ifndef APPNAME
+	APPNAME = "cef2go"
+endif
+
 ifeq ($(UNAME_S), Linux)
 	INC=-I. \
 		-I/usr/include/gtk-2.0 \
@@ -46,7 +50,7 @@ Darwin:
 	@if [ ! -d Release/tmp ]; then \
 		echo Copying CEF framework directory to Release/tmp ;\
 		mkdir -p Release/tmp ;\
-		cp -rf Release/cef2go.app/Contents/Frameworks/Chromium\ Embedded\ Framework.framework Release/tmp/cef.framework ;\
+		cp -rf Release/$(APPNAME).app/Contents/Frameworks/Chromium\ Embedded\ Framework.framework Release/tmp/cef.framework ;\
 		mv Release/tmp/cef.framework/Chromium\ Embedded\ Framework Release/tmp/cef.framework/cef ;\
 	fi
 	go install -x cef
@@ -54,11 +58,11 @@ Darwin:
 	@# on OSX, but Go doesn't allow for such thing when 
 	@# running test. So turning off test.
 	@# go test -ldflags "-r $(PWD)/Release" src/tests/cef_test.go
-	rm -f Release/cef2go.app/Contents/MacOS/cef2go
-	go build -x -ldflags "-r ." -o Release/cef2go.app/Contents/MacOS/cef2go src/main_darwin.go
-	install_name_tool -change @executable_path/Chromium\ Embedded\ Framework @executable_path/../Frameworks/Chromium\ Embedded\ Framework.framework/Chromium\ Embedded\ Framework Release/cef2go.app/Contents/MacOS/cef2go
-	cp -f Release/example.html Release/cef2go.app/Contents/MacOS/example.html
-	cd Release/cef2go.app/Contents/MacOS && ./cef2go && cd ../../../../
+	rm -f Release/$(APPNAME).app/Contents/MacOS/cefclient
+	go build -x -ldflags "-r ." -o Release/$(APPNAME).app/Contents/MacOS/cefclient src/main_darwin.go
+	install_name_tool -change @executable_path/Chromium\ Embedded\ Framework @executable_path/../Frameworks/Chromium\ Embedded\ Framework.framework/Chromium\ Embedded\ Framework Release/$(APPNAME).app/Contents/MacOS/cefclient
+	cp -f Release/example.html Release/$(APPNAME).app/Contents/MacOS/example.html
+	cd Release/$(APPNAME).app/Contents/MacOS && ./cefclient && cd ../../../../
 
 clean:
 	clear
