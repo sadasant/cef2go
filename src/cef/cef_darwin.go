@@ -30,8 +30,14 @@ func FillMainArgs(mainArgs *C.struct__cef_main_args_t,
         appHandle unsafe.Pointer) {
     // On Mac appHandle is nil.
     Logger.Println("FillMainArgs, argc=", len(os.Args))
-    for i, arg := range os.Args {
-        _Argv[C.int(i)] = C.CString(arg)
+    if len(os.Args) == 1 || os.Args[1] != "--type=zygote" {
+        _Argv = make([]*C.char, 1)
+        _Argv[C.int(0)] = C.CString(os.Args[0])
+    } else {
+        _Argv = make([]*C.char, len(os.Args))
+        for i, arg := range os.Args {
+            _Argv[C.int(i)] = C.CString(arg)
+        }
     }
     mainArgs.argc = C.int(len(os.Args))
     mainArgs.argv = &_Argv[0]
