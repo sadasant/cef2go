@@ -38,8 +38,8 @@ Linux:
 	go install gtk
 	go install cef
 	go test -ldflags "-r $(PWD)/Release" src/tests/cef_test.go
-	go build -ldflags "-r ." -o Release/cef2go src/main_linux.go
-	cd Release && ./cef2go && cd ../
+	go build -ldflags "-r ." -o Release/$(APPNAME) src/main_linux.go
+	cd Release && ./$(APPNAME) && cd ../
 
 Darwin:
 	clear

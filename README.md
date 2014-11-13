@@ -134,8 +134,8 @@ Getting started on Windows
     window when running the final executable)
 
 
-Getting started on Linux
-------------------------
+Getting started on Linux 64-bit
+-------------------------------
 1. These instructions work fine with Ubuntu 12.04 64-bit. 
    May also work with other versions, but were not tested.
 
@@ -148,6 +148,23 @@ Getting started on Linux
    Copy Release/* to cef2go/Release
 
 4. Run "make" command.
+
+
+Getting started on Linux 32-bit
+-------------------------------
+1. These instructions work fine with Ubuntu 12.04 32-bit. 
+   May also work with other versions, but were not tested.
+
+2. Install CEF dependencies:  
+   `sudo apt-get install build-essential libgtk2.0-dev libgtkglext1-dev libudev-dev`
+
+3. Download CEF 3 branch 1750 revision 1604 binaries for Linux 32 bits from <http://cefbuilds.com/#branch_1750>, then extract with `7z x` and copy Release/* to cef2go/Release
+
+4. Copy `Release/lib/libcef.so` to `Release/libcef.so`.
+
+5. Run `sudo ln /lib/i386-linux-gnu/libudev.so.1 /lib/i386-linux-gnu/libudev.so.0`.
+
+6. Run `APPNAME=cefclient make`.
 
 
 Getting started on Mac OS X
